@@ -1,2 +1,1 @@
-# raising-Susan
-Raising Susan is a single HTML life-simulation game where you nurture Susan from birth to age 18. Make daily care choices, shape her personality, and watch her grow. Your love writes her story. 💕
+Raising Susan is a tender, browser-based life simulator built in one HTML file. You play as a parent guiding Susan from her first breath in the hospital to her high school graduation at 18. Through simple choices—feeding, playing, reading—you influence her stats (Love, Smarts, Happiness, Health), which shape her personality and future. At the end, witness her journey unfold in a personalized life gallery. No downloads, no ads—just a quiet, meaningful experience made with love by Sweet Biscuit44. ❤️ �

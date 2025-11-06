@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Raising Susan 💕</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff9f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #d87093;
+    }
+    .susan-avatar {
+      font-size: 4em;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .info-box {
+      background: #fff0f5;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+    }
+    button {
+      padding: 10px 15px;
+      margin: 6px;
+      border: none;
+      border-radius: 6px;
+      background: #d87093;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    input {
+      padding: 8px;
+      margin: 6px;
+      width: 70%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+    .final-letter, .stage {
+      background: #f8f4ff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-style: italic;
+    }
+    .stage {
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+      margin-bottom: 25px;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    .avatar {
+      font-size: 5em;
+      margin: 15px 0;
+    }
+    .journal {
+      background: #f0f8ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      font-size: 0.95em;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #888;
+      font-size: 0.9em;
+    }
+    .heart { color: #e74c3c; }
+  </style>
+</head>
+<body>
+  <h1>Raising Susan 💕</h1>
+
+  <div class="susan-avatar" id="susanAvatar">🤰</div>
+
+  <div class="info-box" id="gameInfo">
+    Loading Susan...
+  </div>
+
+  <div class="stats" id="statsDisplay"></div>
+
+  <div id="actions"></div>
+
+  <button onclick="fastForward()">⏩ Fast-Forward 7 Days</button>
+  <button onclick="resetGame()">↻ Reset Game</button>
+
+  <div id="journalSection"></div>
+  <div id="finalScene"></div>
+
+  <footer>
+    Created with love by Sweet Biscuit44 <span class="heart">❤️</span><br>
+    Your support helps keep games like this free.<br>
+    <a href="https://www.paypal.com/paypalme/sweetbiscuit44" target="_blank" style="color:#d87093;">Support via PayPal</a>
+  </footer>
+
+  <script>
+    let susan = JSON.parse(localStorage.getItem('susan')) || initSusan();
+
+    function initSusan() {
+      return {
+        birthDate: null,
+        days: 0,
+        love: 50,
+        smarts: 50,
+        happiness: 50,
+        health: 50,
+        isBorn: false,
+        hospital: '',
+        journal: ['Susan’s story begins...']
+      };
+    }
+
+    function saveGame() {
+      localStorage.setItem('susan', JSON.stringify(susan));
+    }
+
+    function getStage(days) {
+      if (days < 0) return 'unborn';
+      if (days < 14) return 'newborn';
+      if (days < 90) return 'baby';
+      if (days < 365) return 'toddler';
+      if (days < 1095) return 'child';
+      if (days < 2190) return 'kid';
+      if (days < 4015) return 'teen';
+      if (days >= 6570) return 'adult';
+      return 'teen';
+    }
+
+    function getAvatar(stage) {
+      const avatars = {
+        unborn: '🤰',
+        newborn: '👶',
+        baby: '👶',
+        toddler: '🧒',
+        child: '👧',
+        kid: '👧',
+        teen: '🧑‍🎓',
+        adult: '👩'
+      };
+      return avatars[stage] || '👶';
+    }
+
+    function addToJournal(entry) {
+      susan.journal.push(`${new Date().toLocaleDateString()}: ${entry}`);
+      saveGame();
+    }
+
+    function updateUI() {
+      const now = Date.now();
+      if (!susan.isBorn) {
+        document.getElementById('gameInfo').innerHTML = `
+          Susan will soon be born! ❤️<br>
+          Enter your hospital name:<br>
+          <input type="text" id="hospitalInput" placeholder="e.g., Hope General Hospital"><br>
+          <button onclick="confirmBirthCustom()">✅ Welcome Susan</button>
+        `;
+        document.getElementById('actions').innerHTML = '';
+        document.getElementById('statsDisplay').innerHTML = '';
+        document.getElementById('susanAvatar').textContent = '🤰';
+        document.getElementById('journalSection').innerHTML = '';
+        document.getElementById('finalScene').innerHTML = '';
+        return;
+      }
+
+      const daysPassed = Math.floor((now - susan.birthDate) / (1000 * 60 * 60 * 24));
+      susan.days = Math.max(0, daysPassed);
+
+      const stage = getStage(susan.days);
+      const avatar = getAvatar(stage);
+      document.getElementById('susanAvatar').textContent = avatar;
+
+      if (susan.days >= 6570) {
+        showFinalGallery();
+        document.getElementById('actions').innerHTML = '';
+        document.getElementById('statsDisplay').innerHTML = '';
+        return;
+      }
+
+      let message = '';
+      if (stage === 'newborn') message = `Susan is ${susan.days} days old. She needs your love!`;
+      else if (stage === 'baby') message = `Susan is learning to smile and babble.`;
+      else if (stage === 'toddler') message = `Susan is walking and saying her first words!`;
+      else if (stage === 'child') message = `Susan loves books and drawing.`;
+      else if (stage === 'kid') message = `Susan is in school and full of questions!`;
+      else if (stage === 'teen') message = `Susan is dreaming about her future.`;
+
+      document.getElementById('gameInfo').innerHTML = message;
+
+      document.getElementById('statsDisplay').innerHTML = `
+        ❤️ Love: ${Math.round(susan.love)} |
+        🧠 Smarts: ${Math.round(susan.smarts)} |
+        😊 Happiness: ${Math.round(susan.happiness)} |
+        🛡️ Health: ${Math.round(susan.health)}
+      `;
+
+      document.getElementById('actions').innerHTML = `
+        <button onclick="doAction('feed')">🍼 Feed Susan</button>
+        <button onclick="doAction('sleep')">🛌 Bedtime</button>
+        <button onclick="doAction('play')">🧸 Play Together</button>
+        <button onclick="doAction('talk')">💬 Talk to Susan</button>
+      `;
+
+      const recent = susan.journal.slice(-5);
+      document.getElementById('journalSection').innerHTML = `
+        <div class="journal">
+          <strong>Susan's Life Journal (last 5 entries):</strong><br>
+          ${recent.map(e => `• ${e}`).join('<br>')}
+        </div>
+      `;
+    }
+
+    function confirmBirthCustom() {
+      const input = document.getElementById('hospitalInput').value.trim();
+      const hospital = input || "St. Mary’s Hospital";
+      susan.isBorn = true;
+      susan.birthDate = Date.now();
+      susan.hospital = hospital;
+      addToJournal(`Born at ${hospital}!`);
+      updateUI();
+    }
+
+    function doAction(action) {
+      if (susan.days >= 6570) return;
+      let msg = '';
+      if (action === 'feed') {
+        susan.health = Math.min(100, susan.health + 5);
+        susan.happiness += 2;
+        msg = 'You fed Susan. She feels full and happy!';
+      } else if (action === 'sleep') {
+        susan.health += 4;
+        susan.love += 3;
+        msg = 'Susan had a peaceful nap.';
+      } else if (action === 'play') {
+        susan.happiness += 6;
+        susan.smarts += 2;
+        msg = 'You played with Susan! She laughed with joy.';
+      } else if (action === 'talk') {
+        susan.love += 5;
+        susan.smarts += 3;
+        msg = 'You read a story. Susan listened with wide eyes.';
+      }
+      susan.love = Math.min(100, susan.love);
+      susan.smarts = Math.min(100, susan.smarts);
+      susan.happiness = Math.min(100, susan.happiness);
+      susan.health = Math.min(100, susan.health);
+      addToJournal(msg);
+      alert(msg);
+      updateUI();
+    }
+
+    function fastForward() {
+      if (!susan.isBorn) { alert('Please welcome Susan first!'); return; }
+      if (susan.days >= 6570) return;
+      susan.days += 7;
+      susan.birthDate -= 7 * 24 * 60 * 60 * 1000;
+      addToJournal('Fast-forwarded 7 days.');
+      saveGame();
+      updateUI();
+    }
+
+    function resetGame() {
+      if (confirm('Start over with a new Susan? Her story will be lost.')) {
+        localStorage.removeItem('susan');
+        susan = initSusan();
+        updateUI();
+      }
+    }
+
+    function showFinalGallery() {
+      // Personality & path
+      const traits = [];
+      if (susan.love > 70) traits.push('loving');
+      if (susan.smarts > 70) traits.push('curious');
+      if (susan.happiness > 70) traits.push('joyful');
+      if (susan.health > 70) traits.push('resilient');
+      const personality = traits.length ? traits.join(' and ') : 'thoughtful';
+
+      let path = 'writer';
+      if (susan.smarts >= susan.love && susan.smarts >= susan.happiness) path = 'scientist';
+      else if (susan.love >= susan.happiness) path = 'teacher';
+      else path = 'artist';
+
+      document.getElementById('gameInfo').innerHTML = `🎉 Susan is 18 years old!`;
+      document.getElementById('susanAvatar').textContent = '👩';
+
+      // Build gallery HTML
+      const galleryHTML = `
+        <div class="final-letter">
+          <p>Dear Parent,</p>
+          <p>Because of your care, I grew up to be a <strong>${personality} ${path}</strong>.<br>
+          I’ll never forget ${susan.hospital}, bedtime stories, and your endless love.</p>
+          <p>Thank you for being my parent.</p>
+          <p>With all my heart,<br>Susan 💕</p>
+        </div>
+
+        <h2 style="text-align:center;color:#d87093;margin-top:30px;">Susan’s Life Gallery</h2>
+        <div id="lifeGallery"></div>
+
+        <details style="margin-top:20px;">
+          <summary>📖 View Full Journal</summary>
+          <div style="background:#f0f8ff;padding:10px;border-radius:6px;margin-top:10px;max-height:200px;overflow:auto;">
+            ${susan.journal.map(e => `• ${e}`).join('<br>')}
+          </div>
+        </details>
+      `;
+      document.getElementById('finalScene').innerHTML = galleryHTML;
+
+      // Add stages with animation
+      const stages = [
+        {
+          title: "👶 Baby Susan",
+          avatar: "👶",
+          story: `Born at ${susan.hospital}, tiny fingers and wide eyes. She slept in your arms, fed with love, and learned that the world is safe because you were there.`
+        },
+        {
+          title: "🧒 Toddler Susan",
+          avatar: "🧒",
+          story: `Running on wobbly legs, laughing at silly songs, and carrying her stuffed bear everywhere. Every “why?” showed her growing mind—and your patience helped it bloom.`
+        },
+        {
+          title: "👩 Adult Susan",
+          avatar: "👩",
+          story: `Now 18, Susan stands tall—a ${personality} ${path}, shaped by every bedtime story, every hug, and every time you chose her well-being. She carries your love into the world.`
+        }
+      ];
+
+      const gallery = document.getElementById('lifeGallery');
+      stages.forEach((stage, i) => {
+        setTimeout(() => {
+          const div = document.createElement('div');
+          div.className = 'stage';
+          div.style.animationDelay = `${i * 1.2}s`;
+          div.innerHTML = `
+            <h3>${stage.title}</h3>
+            <div class="avatar">${stage.avatar}</div>
+            <div class="story">${stage.story}</div>
+          `;
+          gallery.appendChild(div);
+        }, 100);
+      });
+    }
+
+    updateUI();
+  </script>
+</body>
+</html>

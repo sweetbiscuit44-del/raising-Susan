@@ -4,59 +4,166 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Raising Susan 💕</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background: #fff9f9;
-      color: #333;
+    /* ⭐ MODERNIZED VARIABLES */
+    :root {
+      --primary: #d87093; /* Soft Pink */
+      --secondary: #ffc0cb; /* Lighter Pink */
+      --text: #3d344a;
+      --bg-light: #fefaff;
+      --bg-medium: #fff0f5; /* Light Card Background */
+      --bg-gradient: linear-gradient(180deg, var(--bg-light) 0%, #fff7f7 100%);
+      --shadow: 0 6px 15px rgba(216, 112, 147, 0.15); /* Soft pink shadow */
+      --radius: 12px;
+      --stat-love: #e74c3c;
+      --stat-smarts: #3498db;
+      --stat-happiness: #f39c12;
+      --stat-health: #2ecc71;
     }
+    
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 30px 16px;
+      background: var(--bg-gradient);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    
+    /* FLOATING BISCUIT ICON (from your main site) */
+    .biscuit-icon {
+      font-size: 3.5rem;
+      color: var(--primary);
+      margin: 0 auto 15px; 
+      animation: biscuit-bounce 1.8s infinite alternate cubic-bezier(.27,.67,.33,.95);
+      display: block;
+    }
+    @keyframes biscuit-bounce {
+      to { transform: translateY(-10px) scale(1.05);}
+      from { transform: translateY(0px) scale(1);}
+    }
+
     h1 {
       text-align: center;
-      color: #d87093;
+      font-size: 2.2em;
+      color: var(--primary);
+      margin: 0 0 20px;
     }
+    
     .susan-avatar {
-      font-size: 4em;
+      font-size: 5em;
       text-align: center;
       margin: 20px 0;
+      transition: transform 0.3s ease;
     }
+
+    /* GENERAL BOX STYLES */
+    .panel {
+      background: var(--bg-medium);
+      padding: 20px;
+      border-radius: var(--radius);
+      margin: 18px 0;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 192, 203, 0.5);
+    }
+    
     .info-box {
-      background: #fff0f5;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 15px 0;
+      text-align: center;
+      font-size: 1.1em;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    /* STATS DISPLAY */
+    .stats-container {
+      margin: 25px 0 15px;
+      padding: 0 10px;
+    }
+    .stat-bar {
+      margin-bottom: 12px;
+    }
+    .stat-bar label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9em;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .progress-track {
+      height: 10px;
+      background: #f0f0f0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      transition: width 0.4s ease-out;
+      border-radius: 5px;
+    }
+    
+    /* ACTIONS & BUTTONS */
+    #actions, .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
     }
     button {
-      padding: 10px 15px;
-      margin: 6px;
+      flex-grow: 1;
+      min-width: 120px;
+      padding: 12px 15px;
       border: none;
-      border-radius: 6px;
-      background: #d87093;
+      border-radius: var(--radius);
+      background: var(--primary);
       color: white;
-      font-size: 16px;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+    button:hover { background: #c56383; transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
     input {
-      padding: 8px;
-      margin: 6px;
-      width: 70%;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      max-width: 300px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      text-align: center;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
     }
-    .stats {
-      display: flex;
-      justify-content: space-around;
-      margin: 15px 0;
-      font-weight: bold;
+    
+    /* JOURNAL & FINAL SCENE */
+    .journal {
+      background: var(--bg-light);
+      border: 1px solid #f0e6f2;
+      padding: 15px;
+      border-radius: var(--radius);
+      font-size: 0.95em;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 15px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
     }
     .final-letter, .stage {
-      background: #f8f4ff;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
+      background: #fcfcfc;
+      padding: 25px;
+      border-radius: var(--radius);
+      margin-top: 25px;
       font-style: italic;
+      line-height: 1.7;
+      border: 1px solid var(--secondary);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
     .stage {
       text-align: center;
@@ -68,52 +175,62 @@
       to { opacity: 1; }
     }
     .avatar {
-      font-size: 5em;
+      font-size: 4em;
       margin: 15px 0;
     }
-    .journal {
-      background: #f0f8ff;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 15px;
-      font-size: 0.95em;
-      max-height: 150px;
-      overflow-y: auto;
-    }
+    
+    /* FOOTER */
     footer {
       text-align: center;
       margin-top: 30px;
-      color: #888;
+      color: var(--text-muted);
       font-size: 0.9em;
+      padding-top: 15px;
+      border-top: 1px dashed var(--secondary);
     }
-    .heart { color: #e74c3c; }
+    .heart { color: var(--stat-love); }
+    
+    @media (max-width: 450px) {
+      .action-buttons button {
+        min-width: 45%;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="biscuit-icon" aria-label="Cookie Icon">
+    <i class="fas fa-cookie-bite" aria-hidden="true"></i>
+  </div>
+  
   <h1>Raising Susan 💕</h1>
-
+  
   <div class="susan-avatar" id="susanAvatar">🤰</div>
-
-  <div class="info-box" id="gameInfo">
+  
+  <div class="panel info-box" id="gameInfo">
     Loading Susan...
   </div>
-
-  <div class="stats" id="statsDisplay"></div>
-
-  <div id="actions"></div>
-
-  <button onclick="fastForward()">⏩ Fast-Forward 7 Days</button>
-  <button onclick="resetGame()">↻ Reset Game</button>
-
+  
+  <div class="stats-container panel" id="statsDisplay">
+    </div>
+  
+  <div class="panel">
+    <div class="action-buttons" id="actions">
+      </div>
+    <div class="action-buttons" style="margin-top: 20px;">
+        <button onclick="fastForward()" style="background:#5e72e4;">⏩ Fast-Forward 7 Days</button>
+        <button onclick="resetGame()" style="background:#ef4444;">↻ Reset Game</button>
+    </div>
+  </div>
+  
   <div id="journalSection"></div>
   <div id="finalScene"></div>
-
+  
   <footer>
     Created with love by Sweet Biscuit44 <span class="heart">❤️</span><br>
     Your support helps keep games like this free.<br>
-    <a href="https://www.paypal.com/paypalme/sweetbiscuit44" target="_blank" style="color:#d87093;">Support via PayPal</a>
+    <a href="https://www.paypal.com/paypalme/sweetbiscuit44" target="_blank" style="color:var(--primary); font-weight: 600;">Support via PayPal</a>
   </footer>
-
+  
   <script>
     let susan = JSON.parse(localStorage.getItem('susan')) || initSusan();
 
@@ -152,9 +269,9 @@
         unborn: '🤰',
         newborn: '👶',
         baby: '👶',
-        toddler: '🧒',
-        child: '👧',
-        kid: '👧',
+        toddler: '👧', /* Using slightly older avatar */
+        child: '🧒',
+        kid: '🧑',
         teen: '🧑‍🎓',
         adult: '👩'
       };
@@ -166,13 +283,37 @@
       saveGame();
     }
 
+    // ⭐ NEW: Function to render the stats as progress bars
+    function renderStats() {
+      const stats = [
+        { key: 'love', label: '❤️ Love', value: susan.love, color: 'var(--stat-love)' },
+        { key: 'smarts', label: '🧠 Smarts', value: susan.smarts, color: 'var(--stat-smarts)' },
+        { key: 'happiness', label: '😊 Happiness', value: susan.happiness, color: 'var(--stat-happiness)' },
+        { key: 'health', label: '🛡️ Health', value: susan.health, color: 'var(--stat-health)' }
+      ];
+      
+      const html = stats.map(stat => `
+        <div class="stat-bar">
+          <label>
+            <span>${stat.label}</span>
+            <span>${Math.round(stat.value)}%</span>
+          </label>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: ${stat.value}%; background-color: ${stat.color};"></div>
+          </div>
+        </div>
+      `).join('');
+      
+      document.getElementById('statsDisplay').innerHTML = html;
+    }
+
     function updateUI() {
       const now = Date.now();
+      
       if (!susan.isBorn) {
         document.getElementById('gameInfo').innerHTML = `
           Susan will soon be born! ❤️<br>
-          Enter your hospital name:<br>
-          <input type="text" id="hospitalInput" placeholder="e.g., Hope General Hospital"><br>
+          <input type="text" id="hospitalInput" placeholder="Enter hospital name (e.g., Hope General)"><br>
           <button onclick="confirmBirthCustom()">✅ Welcome Susan</button>
         `;
         document.getElementById('actions').innerHTML = '';
@@ -183,6 +324,7 @@
         return;
       }
 
+      // Ensure days are recalculated if birthDate is set
       const daysPassed = Math.floor((now - susan.birthDate) / (1000 * 60 * 60 * 24));
       susan.days = Math.max(0, daysPassed);
 
@@ -193,41 +335,38 @@
       if (susan.days >= 6570) {
         showFinalGallery();
         document.getElementById('actions').innerHTML = '';
-        document.getElementById('statsDisplay').innerHTML = '';
         return;
       }
-
+      
+      // Update Stats
+      renderStats();
+      
       let message = '';
-      if (stage === 'newborn') message = `Susan is ${susan.days} days old. She needs your love!`;
-      else if (stage === 'baby') message = `Susan is learning to smile and babble.`;
-      else if (stage === 'toddler') message = `Susan is walking and saying her first words!`;
-      else if (stage === 'child') message = `Susan loves books and drawing.`;
-      else if (stage === 'kid') message = `Susan is in school and full of questions!`;
-      else if (stage === 'teen') message = `Susan is dreaming about her future.`;
+      if (stage === 'newborn') message = `Susan is ${susan.days} days old. She needs constant love and rest.`;
+      else if (stage === 'baby') message = `Susan is learning to smile and exploring with her hands.`;
+      else if (stage === 'toddler') message = `Susan is walking, talking, and curious about everything!`;
+      else if (stage === 'child') message = `Susan loves learning and making friends.`;
+      else if (stage === 'kid') message = `Susan is forming strong opinions and needs your guidance.`;
+      else if (stage === 'teen') message = `Susan is dreaming about her future and finding her path.`;
 
-      document.getElementById('gameInfo').innerHTML = message;
-
-      document.getElementById('statsDisplay').innerHTML = `
-        ❤️ Love: ${Math.round(susan.love)} |
-        🧠 Smarts: ${Math.round(susan.smarts)} |
-        😊 Happiness: ${Math.round(susan.happiness)} |
-        🛡️ Health: ${Math.round(susan.health)}
-      `;
+      document.getElementById('gameInfo').innerHTML = `<p>${message}</p>`;
 
       document.getElementById('actions').innerHTML = `
         <button onclick="doAction('feed')">🍼 Feed Susan</button>
         <button onclick="doAction('sleep')">🛌 Bedtime</button>
-        <button onclick="doAction('play')">🧸 Play Together</button>
-        <button onclick="doAction('talk')">💬 Talk to Susan</button>
+        <button onclick="doAction('play')">🧸 Play/Activity</button>
+        <button onclick="doAction('talk')">💬 Read/Talk</button>
       `;
 
-      const recent = susan.journal.slice(-5);
+      const recent = susan.journal.slice(-5).reverse();
       document.getElementById('journalSection').innerHTML = `
         <div class="journal">
-          <strong>Susan's Life Journal (last 5 entries):</strong><br>
+          <strong>Susan's Life Journal (Latest Entries):</strong><br>
           ${recent.map(e => `• ${e}`).join('<br>')}
         </div>
       `;
+      
+      saveGame();
     }
 
     function confirmBirthCustom() {
@@ -236,45 +375,67 @@
       susan.isBorn = true;
       susan.birthDate = Date.now();
       susan.hospital = hospital;
-      addToJournal(`Born at ${hospital}!`);
+      susan.journal = [`Susan’s story begins... Born at ${hospital}!`]; // Reset journal entry structure
       updateUI();
     }
 
     function doAction(action) {
       if (susan.days >= 6570) return;
       let msg = '';
+      
+      // Decay stats over time for challenge
+      susan.happiness = Math.max(0, susan.happiness - 1);
+      susan.health = Math.max(0, susan.health - 0.5); 
+
       if (action === 'feed') {
-        susan.health = Math.min(100, susan.health + 5);
-        susan.happiness += 2;
-        msg = 'You fed Susan. She feels full and happy!';
+        susan.health = Math.min(100, susan.health + 8);
+        susan.happiness += 3;
+        msg = 'You fed Susan a nutritious meal. She feels full and healthy!';
       } else if (action === 'sleep') {
-        susan.health += 4;
-        susan.love += 3;
-        msg = 'Susan had a peaceful nap.';
+        susan.health = Math.min(100, susan.health + 6);
+        susan.love += 4;
+        msg = 'Susan had a restful sleep.';
       } else if (action === 'play') {
-        susan.happiness += 6;
-        susan.smarts += 2;
-        msg = 'You played with Susan! She laughed with joy.';
-      } else if (action === 'talk') {
-        susan.love += 5;
+        susan.happiness = Math.min(100, susan.happiness + 7);
         susan.smarts += 3;
-        msg = 'You read a story. Susan listened with wide eyes.';
+        msg = 'You played with Susan! She laughed with joy and learned something new.';
+      } else if (action === 'talk') {
+        susan.love = Math.min(100, susan.love + 5);
+        susan.smarts = Math.min(100, susan.smarts + 4);
+        msg = 'You read a story. Susan’s vocabulary and love for you grew.';
       }
+
       susan.love = Math.min(100, susan.love);
       susan.smarts = Math.min(100, susan.smarts);
       susan.happiness = Math.min(100, susan.happiness);
-      susan.health = Math.min(100, susan.health);
+      
       addToJournal(msg);
-      alert(msg);
       updateUI();
     }
 
     function fastForward() {
       if (!susan.isBorn) { alert('Please welcome Susan first!'); return; }
-      if (susan.days >= 6570) return;
+      if (susan.days >= 6570) { updateUI(); return; }
+
+      const oldDays = susan.days;
       susan.days += 7;
+      
+      // Simulate weekly decay
+      susan.love = Math.max(0, susan.love - 3);
+      susan.smarts = Math.max(0, susan.smarts - 2);
+      susan.happiness = Math.max(0, susan.happiness - 5);
+      susan.health = Math.max(0, susan.health - 4);
+      
+      // Quick jump to adult stage if needed
+      if (susan.days >= 6570 && oldDays < 6570) {
+          susan.days = 6570;
+          addToJournal('Susan reached 18 years old!');
+      } else {
+          addToJournal('Fast-forwarded 7 days.');
+      }
+      
       susan.birthDate -= 7 * 24 * 60 * 60 * 1000;
-      addToJournal('Fast-forwarded 7 days.');
+      
       saveGame();
       updateUI();
     }
@@ -288,12 +449,12 @@
     }
 
     function showFinalGallery() {
-      // Personality & path
+      // Calculate Personality & path
       const traits = [];
-      if (susan.love > 70) traits.push('loving');
-      if (susan.smarts > 70) traits.push('curious');
-      if (susan.happiness > 70) traits.push('joyful');
-      if (susan.health > 70) traits.push('resilient');
+      if (susan.love > 75) traits.push('loving');
+      if (susan.smarts > 75) traits.push('curious');
+      if (susan.happiness > 75) traits.push('joyful');
+      if (susan.health > 75) traits.push('healthy');
       const personality = traits.length ? traits.join(' and ') : 'thoughtful';
 
       let path = 'writer';
@@ -301,25 +462,25 @@
       else if (susan.love >= susan.happiness) path = 'teacher';
       else path = 'artist';
 
-      document.getElementById('gameInfo').innerHTML = `🎉 Susan is 18 years old!`;
+      document.getElementById('gameInfo').innerHTML = `<p>🎉 Susan is 18 years old!</p>`;
       document.getElementById('susanAvatar').textContent = '👩';
 
       // Build gallery HTML
       const galleryHTML = `
-        <div class="final-letter">
+        <div class="final-letter panel" style="background:#fff;">
+          <h2 style="text-align:center; color:var(--primary); margin-top:0;">A Letter From Susan</h2>
           <p>Dear Parent,</p>
           <p>Because of your care, I grew up to be a <strong>${personality} ${path}</strong>.<br>
-          I’ll never forget ${susan.hospital}, bedtime stories, and your endless love.</p>
-          <p>Thank you for being my parent.</p>
-          <p>With all my heart,<br>Susan 💕</p>
+          I’ll never forget the love, the bedtime stories, and your endless support. You are my world.</p>
+          <p style="text-align:right;">With all my heart,<br>Susan 💕</p>
         </div>
-
-        <h2 style="text-align:center;color:#d87093;margin-top:30px;">Susan’s Life Gallery</h2>
+        
+        <h2 style="text-align:center;color:var(--primary);margin-top:30px;font-size:1.8em;">Susan’s Life Gallery</h2>
         <div id="lifeGallery"></div>
-
-        <details style="margin-top:20px;">
-          <summary>📖 View Full Journal</summary>
-          <div style="background:#f0f8ff;padding:10px;border-radius:6px;margin-top:10px;max-height:200px;overflow:auto;">
+        
+        <details class="panel" style="background:#fdfdfd; margin-top:20px;">
+          <summary style="font-weight:600; color:var(--text);">📖 View Full Journal</summary>
+          <div style="background:var(--bg-light);padding:10px;border-radius:6px;margin-top:10px;max-height:200px;overflow:auto; border:1px solid #eee;">
             ${susan.journal.map(e => `• ${e}`).join('<br>')}
           </div>
         </details>
@@ -331,17 +492,17 @@
         {
           title: "👶 Baby Susan",
           avatar: "👶",
-          story: `Born at ${susan.hospital}, tiny fingers and wide eyes. She slept in your arms, fed with love, and learned that the world is safe because you were there.`
+          story: `Born at ${susan.hospital}, Susan was fragile but quickly learned the world was safe because you were there to feed and comfort her.`
         },
         {
-          title: "🧒 Toddler Susan",
+          title: "🧒 Child Susan",
           avatar: "🧒",
-          story: `Running on wobbly legs, laughing at silly songs, and carrying her stuffed bear everywhere. Every “why?” showed her growing mind—and your patience helped it bloom.`
+          story: `Full of questions, laughter, and endless energy. Every story you read shaped her curious mind, helping her to grow smart and happy.`
         },
         {
-          title: "👩 Adult Susan",
+          title: "👩 Young Adult",
           avatar: "👩",
-          story: `Now 18, Susan stands tall—a ${personality} ${path}, shaped by every bedtime story, every hug, and every time you chose her well-being. She carries your love into the world.`
+          story: `At 18, she is a confident ${path}, ready to take on the world, shaped by your unwavering love and guidance.`
         }
       ];
 
@@ -349,7 +510,7 @@
       stages.forEach((stage, i) => {
         setTimeout(() => {
           const div = document.createElement('div');
-          div.className = 'stage';
+          div.className = 'stage panel';
           div.style.animationDelay = `${i * 1.2}s`;
           div.innerHTML = `
             <h3>${stage.title}</h3>
